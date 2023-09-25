@@ -6,6 +6,38 @@ const shoppingList = document.getElementById('shoppingList');
 const clearBtn = document.getElementById('clearBtn');
 const errorMessage = document.getElementById('error-message');
 
+// function to save items to local storage
+const saveItemsToLocalStorage = () => {
+  const items = Array.from(shoppingList.children).map(
+    (item) => item.querySelector('.item-text').textContent
+  );
+  localStorage.setItem('shoppingItems', JSON.stringify(items));
+};
+
+// function to enter edit mode
+function enterEditMode(li) {
+  const itemText = li.querySelector('.item-text');
+  const editedText = prompt('Edit item:', itemText.textContent);
+
+  if (editedText !== null) {
+    itemText.textContent = editedText;
+    saveItemsToLocalStorage();
+  }
+}
+// Function to load items from local storage
+const savedItems = JSON.parse(localStorage.getItem('shoppingItems')) || [];
+savedItems.forEach((itemText) => {
+  const li = document.createElement('li');
+  li.innerHTML = `
+          <span class="item-text">${itemText}</span>
+          <button class="editBtn">Edit</button>
+          <button class="removeBtn">Remove</button>
+      `;
+  shoppingList.appendChild(li);
+
+  const editBtn = li.querySelector('.editBtn');
+  editBtn.addEventListener('click', () => enterEditMode(li));
+});
 // function to add an item to the shopping list
 const addItem = (e) => {
   e.preventDefault();
@@ -48,17 +80,6 @@ const handleItemClick = (e) => {
   }
 };
 
-// function to enter edit mode
-function enterEditMode(li) {
-  const itemText = li.querySelector('.item-text');
-  const editedText = prompt('Edit item:', itemText.textContent);
-
-  if (editedText !== null) {
-    itemText.textContent = editedText;
-    saveItemsToLocalStorage();
-  }
-}
-
 // function to filter items
 function filterItems() {
   const filterText = filterInput.value.toLowerCase();
@@ -74,34 +95,11 @@ function filterItems() {
   });
 }
 
-//function to clear all items
+// function to clear all items
 const clearList = () => {
   shoppingList.innerHTML = '';
   saveItemsToLocalStorage();
 };
-
-// function to save items to local storage
-const saveItemsToLocalStorage = () => {
-  const items = Array.from(shoppingList.children).map(
-    (item) => item.querySelector('.item-text').textContent
-  );
-  localStorage.setItem('shoppingItems', JSON.stringify(items));
-};
-
-// Function to load items from local storage
-const savedItems = JSON.parse(localStorage.getItem('shoppingItems')) || [];
-savedItems.forEach((itemText) => {
-  const li = document.createElement('li');
-  li.innerHTML = `
-        <span class="item-text">${itemText}</span>
-        <button class="editBtn">Edit</button>
-        <button class="removeBtn">Remove</button>
-    `;
-  shoppingList.appendChild(li);
-
-  const editBtn = li.querySelector('.editBtn');
-  editBtn.addEventListener('click', () => enterEditMode(li));
-});
 
 // Add event listeners
 shoppingForm.addEventListener('submit', addItem);
