@@ -4,13 +4,15 @@ const shoppingForm = document.getElementById('shoppingForm');
 const filterInput = document.getElementById('filterInput');
 const shoppingList = document.getElementById('shoppingList');
 const clearBtn = document.getElementById('clearBtn');
+const errorMessage = document.getElementById('error-message');
 
 // function to add an item to the shopping list
 const addItem = (e) => {
   e.preventDefault();
   const itemName = itemInput.value;
   if (itemName === '') {
-    alert('Please enter an item');
+    errorMessage.textContent =
+      'Item name cannot be empty. Please enter an item.';
     return;
   }
 
