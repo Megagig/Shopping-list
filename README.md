@@ -63,7 +63,7 @@ In this project, you will be able to add item to list via form, Remove items fro
 
 ## 🚀 Live Demo <a name="live-demo"></a>
 
-- [Live Demo Link](Comming soon)
+- [Live Demo Link](https://megagig.github.io/Shopping-list/)
 
 <!-- GETTING STARTED -->
 
